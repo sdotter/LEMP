@@ -73,8 +73,8 @@ log_section "MariaDB root password set" "✔️"
 log_section "Docker container status" "📦"
 sudo docker ps
 log_section "Done" "🏁"
-echo -e "\n${GREEN}Go to: https://localhost/   (your web root)${NC}"
-echo -e "${GREEN}Go to: https://localhost/phpmyadmin   (phpMyAdmin)${NC}\n"
+echo -e "\n${GREEN}Go to: https://localhost/\t\t   (your web root)${NC}"
+echo -e "${GREEN}Go to: https://localhost/phpmyadmin\t   (phpMyAdmin)${NC}\n"
 
 # import database example
 # sudo docker cp backup.sql mydb:/backup.sql
