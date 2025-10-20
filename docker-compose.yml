@@ -1,0 +1,46 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: mynginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /mnt/c/[ DEV ]/[ LEMP ]/www:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - php
+
+  php:
+    image: php:8.2-fpm
+    container_name: myphp
+    volumes:
+      - /mnt/c/[ DEV ]/[ LEMP ]/www:/var/www/html
+    command: bash -c "apt-get update && apt-get install -y build-essential libmariadb-dev && docker-php-ext-install mysqli && php-fpm"
+
+  db:
+    image: mariadb:10.10
+    container_name: mydb
+    volumes:
+      - /mnt/c/[ DEV ]/[ LEMP ]/data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 12345
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: myphpmyadmin
+    ports:
+      - 81:80
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ABSOLUTE_URI: https://localhost/phpmyadmin/
+      PMA_COOKIE_SECURE: 0
+      PMA_FORCE_SSL: false
+    depends_on:
+      - db
